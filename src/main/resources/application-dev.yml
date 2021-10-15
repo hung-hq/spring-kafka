@@ -5,7 +5,7 @@ spring:
     bootstrap-servers: localhost:9092
     producer:
 #      topic: test-topic-1p
-      topic: test-topic-10p
+      topic: test-topic-20p
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       retries: 3
@@ -13,7 +13,7 @@ spring:
     consumer:
       group-id: test-group-id
 #      topic: test-topic-1p
-      topic: test-topic-10p
+      topic: test-topic-20p
       auto-offset-reset: earliest
       enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -23,7 +23,7 @@ spring:
         start: true
       ack-mode: manual_immediate
       # for concurrency consumer
-      concurrency: 10
+      concurrency: 20
       type: batch
   jpa:
     database: postgresql
