@@ -1,0 +1,42 @@
+server:
+  port: 8081
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+#      topic: test-topic-1p
+      topic: test-topic-10p
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 3
+      acks: 1
+    consumer:
+      group-id: test-group-id
+#      topic: test-topic-1p
+      topic: test-topic-10p
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      auto:
+        start: true
+      ack-mode: manual_immediate
+      # for concurrency consumer
+      concurrency: 10
+      type: batch
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+        hbm2ddl:
+          auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/spring_kafka
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 30

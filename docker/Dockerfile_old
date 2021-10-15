@@ -1,0 +1,22 @@
+#################################################################### SOLUTION 1: ERROR
+#FROM openjdk:8-alpine as builder
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} application.jar
+#RUN java -Djarmode=layertools -jar application.jar extract
+#
+#FROM openjdk:8-alpine
+#COPY --from=builder dependencies/ ./
+#RUN true
+#COPY --from=builder snapshot-dependencies/ ./
+#RUN true
+#COPY --from=builder spring-boot-loader/ ./
+#RUN true
+#COPY --from=builder application/ ./
+#ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+
+#################################################################### SOLUTION 2: EXECUTABLE
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+COPY config config
+ENTRYPOINT ["java","-jar","/app.jar"]

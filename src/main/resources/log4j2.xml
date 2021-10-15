@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+<!--    <Properties>-->
+<!--        <Property name="LOG_PATTERN">-->
+<!--            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} -&#45;&#45; [%15.15t] %-40.40c{1.} : %m%n%ex-->
+<!--        </Property>-->
+<!--    </Properties>-->
+    <Appenders>
+<!--        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">-->
+<!--            <PatternLayout>-->
+<!--                <Pattern>${LOG_PATTERN}</Pattern>-->
+<!--            </PatternLayout>-->
+<!--        </Console>-->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout>
+                <Pattern>%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable</Pattern>
+            </PatternLayout>
+        </Console>
+<!--        <File name="FileAppender" fileName="log/app.log">-->
+<!--            <PatternLayout>-->
+<!--                <Pattern>${LOG_PATTERN}</Pattern>-->
+<!--            </PatternLayout>-->
+<!--        </File>-->
+<!--        <RollingFile name="RollingFileAppender"-->
+<!--                     fileName="logs/rolling/app.log"-->
+<!--                     filePattern="app-%d{dd-MM-yyyy}-%i.log.gz">-->
+<!--            <PatternLayout>-->
+<!--                <Pattern>${LOG_PATTERN}</Pattern>-->
+<!--            </PatternLayout>-->
+<!--            <Policies>-->
+<!--                &lt;!&ndash; rollover on startup, daily and when the file reaches-->
+<!--                    5 KiloBytes &ndash;&gt;-->
+<!--                <OnStartupTriggeringPolicy />-->
+<!--                <SizeBasedTriggeringPolicy-->
+<!--                        size="5 KB" />-->
+<!--                <TimeBasedTriggeringPolicy />-->
+<!--            </Policies>-->
+<!--            <DefaultRolloverStrategy max="10" />-->
+<!--        </RollingFile>-->
+        <RollingFile name="RollingFile"
+                     fileName="logs/app.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{-dd-MM-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                        size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.tutorial.kafka.springkafka" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>
